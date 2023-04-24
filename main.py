@@ -18,13 +18,16 @@ def input_checker(address):
 
 
 def query_api(arguments):
-    response = requests.get(f"https://api.macaddress.io/v1?apiKey={arguments.key}&output=vendor&search={arguments.address}")
-    print(f"Returning vendor name: {response}")
-    return response
+    key = arguments.key[0]
+    address = arguments.address[0]
+    response = requests.get(f"https://api.macaddress.io/v1?apiKey={key}&output=vendor&search={address}")
+    response_string = str(response.content)
+    print(f"Returning vendor name: {response_string}")
+    return response_string
 
 
 def run(arguments):
-    valid = inputchecker(arguments.address)
+    valid = input_checker(arguments.address[0])
     if valid:
         query_api(arguments)
     else:
