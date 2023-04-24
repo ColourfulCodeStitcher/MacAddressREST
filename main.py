@@ -1,5 +1,6 @@
 import argparse
 import requests
+import re
 
 
 parser = argparse.ArgumentParser()
@@ -9,15 +10,17 @@ args = parser.parse_args()
 
 
 def input_checker(address):
-    # make condition to check if input is a valid MAC address
-    # return True if valid, False if invalid
-    pass
+    match = re.search(r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", address)
+    if match:
+        return True
+    else:
+        return False
 
 
 def query_api(arguments):
-    response = requests.get(f"https://api.macaddress.io/v1?apiKey={arguments.key}&output=json&search={arguments.address}")
-    # TODO: format response from JSON to useful format - just a string?
-    pass
+    response = requests.get(f"https://api.macaddress.io/v1?apiKey={arguments.key}&output=vendor&search={arguments.address}")
+    print(f"Returning vendor name: {response}")
+    return response
 
 
 def run(arguments):
